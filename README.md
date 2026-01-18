@@ -47,6 +47,12 @@ It works by using **FFmpeg** (which is built-in to the official OctoPrint Docker
 
 ## Changelog
 
+### v0.3.0
+-   **Major Performance Upgrade**: Rewritten with Broadcast architecture. A single FFmpeg process now serves all clients, drastically reducing CPU usage.
+-   **Advanced Settings**: Added ability to control FFmpeg resolution, framerate, and bitrate to optimize for your hardware.
+-   **Stability**: Added "Smart Reconnect" logic to automatically restart the stream if it freezes.
+-   **Feature**: Added Generic PTZ Control support. Configure HTTP URLs to control your camera directly from settings (Test buttons included).
+
 ### v0.2.0
 -   **New Feature**: Added Snapshot support (`/snapshot` endpoint).
 -   **New Feature**: Added Image Orientation settings (Flip Horizontal, Flip Vertical, Rotate 90°).
