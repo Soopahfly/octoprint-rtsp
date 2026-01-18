@@ -13,7 +13,7 @@ It works by using **FFmpeg** (which is built-in to the official OctoPrint Docker
 
 ## Installation
 
-1.  **Download**: Download the `OctoPrint-RTSP-0.2.0.zip` file from this repository (or click [here](./OctoPrint-RTSP-0.2.0.zip) if viewing on GitHub).
+1.  **Download**: Download the `OctoPrint-RTSP-0.3.0.zip` file from this repository (or click [here](./OctoPrint-RTSP-0.3.0.zip) if viewing on GitHub).
 2.  **Upload**:
     -   Open OctoPrint Settings (Wrench icon).
     -   Go to **Plugin Manager**.
