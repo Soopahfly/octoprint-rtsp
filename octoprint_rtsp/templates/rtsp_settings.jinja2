@@ -1,0 +1,17 @@
+<form class="form-horizontal">
+    <div class="control-group">
+        <label class="control-label">RTSP Stream URL</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.rtsp.rtsp_url" placeholder="rtsp://username:password@ip:port/stream">
+            <span class="help-block">Enter the full RTSP URL of your camera.</span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Stream Output URL</label>
+        <div class="controls">
+            <!-- This shows the user what URL to put into OctoPrint's Webcam settings -->
+            <pre data-bind="text: streamUrl"></pre>
+            <span class="help-block">Copy this URL and paste it into <strong>Settings > Webcam & Timelapse > Stream URL</strong> to use this camera as your OctoPrint webcam.</span>
+        </div>
+    </div>
+</form>
