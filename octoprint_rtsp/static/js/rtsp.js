@@ -14,6 +14,10 @@ $(function () {
         self.streamUrl = ko.pureComputed(function () {
             return "http://" + window.location.host + "/plugin/rtsp/stream";
         });
+
+        self.snapshotUrl = ko.pureComputed(function () {
+            return "http://" + window.location.host + "/plugin/rtsp/snapshot";
+        });
     }
 
     OCTOPRINT_VIEWMODELS.push({

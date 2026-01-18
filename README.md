@@ -35,8 +35,26 @@ It works by using **FFmpeg** (which is built-in to the official OctoPrint Docker
     -   Paste the URL into the **Stream URL** field.
     -   Click **Test** to verify the video works.
     -   Click **Save**.
+3.  **Set Snapshot URL**:
+    -   Copy the **Snapshot Output URL** (e.g., `http://YOUR_IP/plugin/rtsp/snapshot`).
+    -   Paste it into the **Snapshot URL** field in Webcam settings.
+    -   Click **Test** to verify.
 
-## Troubleshooting
+## Privacy & Security
+
+-   **Log Redaction**: RTSP credentials are masked in the OctoPrint logs (e.g., `rtsp://user:****@ip`).
+-   **Security**: The plugin proxies the stream, so your camera is not directly exposed to the browser client.
+
+## Changelog
+
+### v0.2.0
+-   **New Feature**: Added Snapshot support (`/snapshot` endpoint).
+-   **New Feature**: Added Image Orientation settings (Flip Horizontal, Flip Vertical, Rotate 90°).
+-   **Security**: Implemented credential redaction in logs.
+-   **Improvement**: Switched to FFmpeg for robust transcoding.
+
+### v0.1.0
+-   Initial release with basic RTSP to MJPEG streaming.
 
 -   **Gray Screen / No Image**:
     -   Check your OctoPrint logs (`octoprint.log`). If you see "FFmpeg not found", make sure FFmpeg is installed and in your system PATH.
