@@ -85,7 +85,9 @@ class RtspPlugin(octoprint.plugin.StartupPlugin,
         ]
 
     def get_assets(self):
+        return dict(
             js=["js/rtsp_plugin.js"]
+        )
 
     # BlueprintPlugin mixin
     @octoprint.plugin.BlueprintPlugin.route("/snapshot", methods=["GET"])
