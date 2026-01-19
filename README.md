@@ -11,9 +11,25 @@ It works by using **FFmpeg** (which is built-in to the official OctoPrint Docker
     -   **OctoPi**: Install via `sudo apt install ffmpeg`.
     -   **Windows**: Install FFmpeg and add it to your PATH.
 
+## Development
+
+If you are developing this plugin or strictly want to install it manually via command line, it is highly recommended to use OctoPrint's virtual environment to avoid permission issues and the "running pip as root" warning.
+
+**On OctoPi:**
+```bash
+source ~/oprint/bin/activate
+pip install -e .
+```
+
+**On Windows:**
+```powershell
+.\venv\Scripts\activate
+pip install -e .
+```
+
 ## Installation
 
-1.  **Download**: Download the `OctoPrint-RTSP-0.3.0.zip` file from this repository (or click [here](./OctoPrint-RTSP-0.3.0.zip) if viewing on GitHub).
+1.  **Download**: Download the `OctoPrint-RTSP-0.3.1.zip` file from this repository (or click [here](./OctoPrint-RTSP-0.3.1.zip) if viewing on GitHub).
 2.  **Upload**:
     -   Open OctoPrint Settings (Wrench icon).
     -   Go to **Plugin Manager**.
@@ -46,6 +62,10 @@ It works by using **FFmpeg** (which is built-in to the official OctoPrint Docker
 -   **Security**: The plugin proxies the stream, so your camera is not directly exposed to the browser client.
 
 ## Changelog
+
+### v0.3.1
+-   **Bug Fix**: Fixed missing configuration items (Blank settings page).
+-   **Documentation**: Updated installation instructions for developers.
 
 ### v0.3.0
 -   **Major Performance Upgrade**: Rewritten with Broadcast architecture. A single FFmpeg process now serves all clients, drastically reducing CPU usage.
