@@ -12,7 +12,7 @@
             <div class="control-group">
                 <label class="control-label">RTSP Stream URL</label>
                 <div class="controls">
-                    <input type="text" class="input-block-level" data-bind="value: settings.plugins.rtsp.rtsp_url" placeholder="rtsp://username:password@ip:port/stream">
+                    <input type="text" class="input-block-level" data-bind="value: settingsViewModel.settings.plugins.rtsp.rtsp_url" placeholder="rtsp://username:password@ip:port/stream">
                     <span class="help-block">Enter the full RTSP URL of your camera.</span>
                 </div>
             </div>
@@ -21,13 +21,13 @@
                 <label class="control-label">Orientation</label>
                 <div class="controls">
                     <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: settings.plugins.rtsp.flip_h"> Flip Horizontal
+                        <input type="checkbox" data-bind="checked: settingsViewModel.settings.plugins.rtsp.flip_h"> Flip Horizontal
                     </label>
                     <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: settings.plugins.rtsp.flip_v"> Flip Vertical
+                        <input type="checkbox" data-bind="checked: settingsViewModel.settings.plugins.rtsp.flip_v"> Flip Vertical
                     </label>
                      <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: settings.plugins.rtsp.rotate_90"> Rotate 90° Clockwise
+                        <input type="checkbox" data-bind="checked: settingsViewModel.settings.plugins.rtsp.rotate_90"> Rotate 90° Clockwise
                     </label>
                 </div>
             </div>
@@ -59,7 +59,7 @@
             <div class="control-group">
                 <label class="control-label">Resolution (-s)</label>
                 <div class="controls">
-                    <input type="text" data-bind="value: settings.plugins.rtsp.stream_resolution" placeholder="e.g. 640x480">
+                    <input type="text" data-bind="value: settingsViewModel.settings.plugins.rtsp.stream_resolution" placeholder="e.g. 640x480">
                     <span class="help-block">Leave empty to use source resolution. Lowering this can fix lag on Raspberry Pi.</span>
                 </div>
             </div>
@@ -67,7 +67,7 @@
             <div class="control-group">
                 <label class="control-label">Framerate (-r)</label>
                 <div class="controls">
-                    <input type="number" data-bind="value: settings.plugins.rtsp.stream_fps" placeholder="15">
+                    <input type="number" data-bind="value: settingsViewModel.settings.plugins.rtsp.stream_fps" placeholder="15">
                      <span class="help-block">Default: 15.</span>
                 </div>
             </div>
@@ -75,7 +75,7 @@
              <div class="control-group">
                 <label class="control-label">Bitrate (-b:v)</label>
                 <div class="controls">
-                    <input type="text" data-bind="value: settings.plugins.rtsp.stream_bitrate" placeholder="e.g. 1000k">
+                    <input type="text" data-bind="value: settingsViewModel.settings.plugins.rtsp.stream_bitrate" placeholder="e.g. 1000k">
                     <span class="help-block">Target video bitrate.</span>
                 </div>
             </div>
@@ -83,7 +83,7 @@
             <div class="control-group">
                 <label class="control-label">Custom FFmpeg Args</label>
                 <div class="controls">
-                    <input type="text" class="input-block-level" data-bind="value: settings.plugins.rtsp.ffmpeg_custom_args" placeholder="-example arg">
+                    <input type="text" class="input-block-level" data-bind="value: settingsViewModel.settings.plugins.rtsp.ffmpeg_custom_args" placeholder="-example arg">
                      <span class="help-block">Extra arguments to pass to FFmpeg (be careful!).</span>
                 </div>
             </div>
@@ -95,20 +95,20 @@
             <div class="control-group">
                 <div class="controls">
                     <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: settings.plugins.rtsp.use_ptz"> Enable Generic PTZ Support
+                        <input type="checkbox" data-bind="checked: settingsViewModel.settings.plugins.rtsp.use_ptz"> Enable Generic PTZ Support
                     </label>
                      <span class="help-block">Configure HTTP URLs to trigger your camera's movements.</span>
                 </div>
             </div>
 
-            <div data-bind="visible: settings.plugins.rtsp.use_ptz">
+            <div data-bind="visible: settingsViewModel.settings.plugins.rtsp.use_ptz">
                  <!-- Helper function for PTZ row -->
                  <!-- Note: We can't use complex macros here easily, standard HTML -->
                  
                  <div class="control-group">
                     <label class="control-label">Left URL</label>
                     <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: settings.plugins.rtsp.ptz_url_left">
+                        <input type="text" class="input-xxlarge" data-bind="value: settingsViewModel.settings.plugins.rtsp.ptz_url_left">
                         <button class="btn" type="button" data-bind="click: function() { testPtz('left') }"><i class="icon-arrow-left"></i> Test</button>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                 <div class="control-group">
                     <label class="control-label">Right URL</label>
                     <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: settings.plugins.rtsp.ptz_url_right">
+                        <input type="text" class="input-xxlarge" data-bind="value: settingsViewModel.settings.plugins.rtsp.ptz_url_right">
                         <button class="btn" type="button" data-bind="click: function() { testPtz('right') }">Test <i class="icon-arrow-right"></i></button>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                 <div class="control-group">
                     <label class="control-label">Up URL</label>
                     <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: settings.plugins.rtsp.ptz_url_up">
+                        <input type="text" class="input-xxlarge" data-bind="value: settingsViewModel.settings.plugins.rtsp.ptz_url_up">
                         <button class="btn" type="button" data-bind="click: function() { testPtz('up') }"><i class="icon-arrow-up"></i> Test</button>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                 <div class="control-group">
                     <label class="control-label">Down URL</label>
                     <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: settings.plugins.rtsp.ptz_url_down">
+                        <input type="text" class="input-xxlarge" data-bind="value: settingsViewModel.settings.plugins.rtsp.ptz_url_down">
                         <button class="btn" type="button" data-bind="click: function() { testPtz('down') }"><i class="icon-arrow-down"></i> Test</button>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
                  <div class="control-group">
                     <label class="control-label">Zoom In URL</label>
                     <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: settings.plugins.rtsp.ptz_url_zoom_in">
+                        <input type="text" class="input-xxlarge" data-bind="value: settingsViewModel.settings.plugins.rtsp.ptz_url_zoom_in">
                         <button class="btn" type="button" data-bind="click: function() { testPtz('zoomin') }"><i class="icon-zoom-in"></i> Test</button>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                  <div class="control-group">
                     <label class="control-label">Zoom Out URL</label>
                     <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: settings.plugins.rtsp.ptz_url_zoom_out">
+                        <input type="text" class="input-xxlarge" data-bind="value: settingsViewModel.settings.plugins.rtsp.ptz_url_zoom_out">
                         <button class="btn" type="button" data-bind="click: function() { testPtz('zoomout') }"><i class="icon-zoom-out"></i> Test</button>
                     </div>
                 </div>

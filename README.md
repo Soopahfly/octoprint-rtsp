@@ -29,7 +29,7 @@ pip install -e .
 
 ## Installation
 
-1.  **Download**: Download the `OctoPrint-RTSP-0.3.1.zip` file from this repository (or click [here](./OctoPrint-RTSP-0.3.1.zip) if viewing on GitHub).
+1.  **Download**: Download the `OctoPrint-RTSP-0.3.2.zip` file from this repository (or click [here](./OctoPrint-RTSP-0.3.2.zip) if viewing on GitHub).
 2.  **Upload**:
     -   Open OctoPrint Settings (Wrench icon).
     -   Go to **Plugin Manager**.
@@ -62,6 +62,9 @@ pip install -e .
 -   **Security**: The plugin proxies the stream, so your camera is not directly exposed to the browser client.
 
 ## Changelog
+
+### v0.3.2
+-   **Bug Fix**: Robust fix for blank settings screen by refactoring ViewModel bindings.
 
 ### v0.3.1
 -   **Bug Fix**: Fixed missing configuration items (Blank settings page).

@@ -8,7 +8,11 @@ $(function () {
     function RtspViewModel(parameters) {
         var self = this;
 
-        self.settings = parameters[0].settings;
+        self.settingsViewModel = parameters[0];
+
+        // Debug logging to help verify checks
+        console.log("RtspViewModel constructed");
+        console.log("SettingsViewModel:", self.settingsViewModel);
 
         // This path will be: /plugin/rtsp/stream
         self.streamUrl = ko.pureComputed(function () {
