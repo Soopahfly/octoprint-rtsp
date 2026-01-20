@@ -57,6 +57,9 @@ This plugin:
 
 ## Changelog
 
+### v0.4.1
+- **Fixed**: Added cache busting for JavaScript assets
+
 ### v0.4.0
 - **Fixed**: Snapshot URL now uses correct protocol (HTTPS support)
 - **Fixed**: Cross-platform debug paths (Windows/Linux/Docker compatibility)
