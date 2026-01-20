@@ -1,98 +1,85 @@
 # OctoPrint-RTSP
 
-A simple OctoPrint plugin that allows you to view RTSP camera streams (like those from security cameras) directly in the OctoPrint interface.
+This plugin allows you to view RTSP camera streams (like those from Wyze, Ubiquiti, or standard IP security cameras) directly within the OctoPrint interface. 
 
-It works by using **FFmpeg** (which is built-in to the official OctoPrint Docker image) to transcode the RTSP stream into an MJPEG stream that OctoPrint can understand.
+It solves the common problem where browsers cannot natively display `rtsp://` video streams. The plugin uses **FFmpeg** to transcode the RTSP stream into an MJPEG stream on-the-fly, which can then be viewed in any browser.
+
+## Features
+
+*   **RTSP to MJPEG Transcoding**: View any RTSP stream in Chrome, Firefox, Safari, etc.
+*   **Low CPU Broadcast Mode**: A single FFmpeg process serves all connected clients, preventing CPU spikes.
+*   **Smart Reconnect**: Automatically attempts to restart the stream if the camera disconnects.
+*   **Orientation Control**: Flip Horizontal, Flip Vertical, and Rotate 90° support.
+*   **Advanced FFmpeg Tuning**: Custom control over resolution, framerate, and bitrate to optimize for Raspberry Pi hardware.
+*   **Snapshot Support**: Provides a static image endpoint for creating time-lapses.
+*   **Generic PTZ Control**: Map simple HTTP URL endpoints to on-screen Pan/Tilt/Zoom buttons.
 
 ## Prerequisites
 
--   **FFmpeg**: Must be available on the system running OctoPrint.
-    -   **Docker**: The official `octoprint/octoprint` image already includes this. No extra setup needed.
-    -   **OctoPi**: Install via `sudo apt install ffmpeg`.
-    -   **Windows**: Install FFmpeg and add it to your PATH.
-
-## Development
-
-If you are developing this plugin or strictly want to install it manually via command line, it is highly recommended to use OctoPrint's virtual environment to avoid permission issues and the "running pip as root" warning.
-
-**On OctoPi:**
-```bash
-source ~/oprint/bin/activate
-pip install -e .
-```
-
-**On Windows:**
-```powershell
-.\venv\Scripts\activate
-pip install -e .
-```
+*   **FFmpeg**: This plugin relies on `ffmpeg` being installed and available in the system PATH.
+    *   **OctoPrint Docker Image**: `ffmpeg` is pre-installed in the official image. No action needed.
+    *   **OctoPi**: Install via SSH: `sudo apt update && sudo apt install ffmpeg`
+    *   **Windows**: Download FFmpeg and add the `bin` folder to your Windows System PATH.
 
 ## Installation
 
-1.  **Download**: Download the `OctoPrint-RTSP-0.3.4.zip` file from this repository (or click [here](./OctoPrint-RTSP-0.3.4.zip) if viewing on GitHub).
-2.  **Upload**:
-    -   Open OctoPrint Settings (Wrench icon).
-    -   Go to **Plugin Manager**.
-    -   Click **Get More...**.
-    -   Scroll down to **... from an uploaded file**.
-    -   Select the downloaded `.zip` file.
-3.  **Restart**: Restart OctoPrint when prompted.
+### Plugin Manager
+1.  Open OctoPrint Settings.
+2.  Open the **Plugin Manager**.
+3.  Click "Get More...".
+4.  Search for **OctoPrint-RTSP** and click Install.
+
+### Manually using the URL
+1.  Open the Plugin Manager.
+2.  Click "Get More..." and use the **... from URL** option.
+3.  Enter: `https://github.com/<your-username>/OctoPrint-RTSP/archive/main.zip`
 
 ## Configuration
 
-1.  **Set RTSP URL**:
-    -   Go to **Settings** > **OctoPrint-RTSP**.
-    -   Enter your camera's RTSP URL (e.g., `rtsp://username:password@192.168.1.50:554/stream`).
-    -   Click **Save**.
-2.  **Set Webcam URL**:
-    -   After saving, the plugin will display a **Stream Output URL** (e.g., `http://YOUR_IP/plugin/rtsp/stream`).
-    -   Copy this URL.
-    -   Go to **Settings** > **Webcam & Timelapse**.
-    -   Paste the URL into the **Stream URL** field.
-    -   Click **Test** to verify the video works.
-    -   Click **Save**.
-3.  **Set Snapshot URL**:
-    -   Copy the **Snapshot Output URL** (e.g., `http://YOUR_IP/plugin/rtsp/snapshot`).
-    -   Paste it into the **Snapshot URL** field in Webcam settings.
-    -   Click **Test** to verify.
+1.  **RTSP Stream URL**: Go to **Settings > OctoPrint-RTSP** and enter your camera's RTSP URL (e.g., `rtsp://user:pass@192.168.1.50:554/live`).
+    *   *Note: If your password contains special characters, you must URL Encode them.*
+2.  **Webcam Integration**:
+    *   After saving, the plugin shows a **Stream Output URL** (e.g., `/plugin/rtsp/stream`).
+    *   Copy this URL.
+    *   Go to **Settings > Webcam & Timelapse**.
+    *   Paste it into the **Stream URL** field.
+    *   Click **Test** to verify.
+    *   Don't forget to **Save**!
 
-## Privacy & Security
+## Privacy Policy
 
--   **Log Redaction**: RTSP credentials are masked in the OctoPrint logs (e.g., `rtsp://user:****@ip`).
--   **Security**: The plugin proxies the stream, so your camera is not directly exposed to the browser client.
+This plugin:
+*   **Does NOT** collect any user data.
+*   **Does NOT** connect to any cloud services.
+*   **Does NOT** include any tracking or analytics code.
+*   Stores your RTSP credentials locally in your OctoPrint `config.yaml`.
+*   Proxies the video stream through your OctoPrint server (your camera is not exposed directly to the internet).
 
 ## Changelog
 
+### v0.4.0
+- **Fixed**: Snapshot URL now uses correct protocol (HTTPS support)
+- **Fixed**: Cross-platform debug paths (Windows/Linux/Docker compatibility)
+- **Fixed**: Reduced frame buffer limit from 5MB to 2MB (better for Raspberry Pi)
+- **Fixed**: Thread safety improvements for stream initialization
+- **Fixed**: Removed debug console.log from production JavaScript
+- **Improved**: Thread-safe logging state initialization
+
 ### v0.3.4
--   **CRITICAL FIX**: Fixed broken asset loading that caused blank settings in v0.3.3.
+- Fixed missing return in get_assets
 
 ### v0.3.3
--   **Bug Fix**: Renamed JS file to force cache clear and implemented safer UI binding logic.
+- Force cache bust and safer bindings
 
 ### v0.3.2
--   **Bug Fix**: Robust fix for blank settings screen by refactoring ViewModel bindings.
+- Fix bindings for real
 
 ### v0.3.1
--   **Bug Fix**: Fixed missing configuration items (Blank settings page).
--   **Documentation**: Updated installation instructions for developers.
+- Fix missing config items and update docs
 
 ### v0.3.0
--   **Major Performance Upgrade**: Rewritten with Broadcast architecture. A single FFmpeg process now serves all clients, drastically reducing CPU usage.
--   **Advanced Settings**: Added ability to control FFmpeg resolution, framerate, and bitrate to optimize for your hardware.
--   **Stability**: Added "Smart Reconnect" logic to automatically restart the stream if it freezes.
--   **Feature**: Added Generic PTZ Control support. Configure HTTP URLs to control your camera directly from settings (Test buttons included).
+- Initial public release with broadcast mode
 
-### v0.2.0
--   **New Feature**: Added Snapshot support (`/snapshot` endpoint).
--   **New Feature**: Added Image Orientation settings (Flip Horizontal, Flip Vertical, Rotate 90°).
--   **Security**: Implemented credential redaction in logs.
--   **Improvement**: Switched to FFmpeg for robust transcoding.
+## License
 
-### v0.1.0
--   Initial release with basic RTSP to MJPEG streaming.
-
--   **Gray Screen / No Image**:
-    -   Check your OctoPrint logs (`octoprint.log`). If you see "FFmpeg not found", make sure FFmpeg is installed and in your system PATH.
-    -   Verify your RTSP URL works in a desktop player like VLC.
--   **High CPU Usage**:
-    -   Transcoding is CPU intensive. If running on a Raspberry Pi Zero or older Pi, this might be too heavy. Consider reducing the resolution on your camera settings.
+AGPLv3

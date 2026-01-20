@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
+import threading
 import octoprint.plugin
 import flask
 import urllib.request
@@ -15,6 +16,7 @@ class RtspPlugin(octoprint.plugin.StartupPlugin,
 
     def __init__(self):
         self._streamor = None
+        self._streamor_lock = threading.Lock()
 
     def on_after_startup(self):
         self._logger.info("OctoPrint-RTSP loaded!")
@@ -139,25 +141,34 @@ class RtspPlugin(octoprint.plugin.StartupPlugin,
 
     @octoprint.plugin.BlueprintPlugin.route("/stream", methods=["GET"])
     def stream_video(self):
+        self._logger.info("Stream request received!")
         rtsp_url = self._settings.get(["rtsp_url"])
-        
+
         if not rtsp_url:
+            self._logger.warning("Stream request failed: No RTSP URL")
             return flask.Response("RTSP URL not configured", status=400)
-        
-        # Ensure streamor exists
-        if not self._streamor:
-            # We need to load all settings to init it correctly.
-            # Ideally this is done in on_after_startup, but for safety:
-            self.on_settings_save({}) # Force reload settings or just init properly
-            # Re-get the instance
+
+        # Thread-safe streamor initialization
+        with self._streamor_lock:
             if not self._streamor:
-                 return flask.Response("Streamor init failed", status=500)
+                # We need to load all settings to init it correctly.
+                # Ideally this is done in on_after_startup, but for safety:
+                self.on_settings_save({})
+                if not self._streamor:
+                    self._logger.error("Streamor failed to initialize")
+                    return flask.Response("Streamor init failed", status=500)
 
-        # Ensure broadcast thread is running
-        self._streamor.start()
-
-        return flask.Response(self._streamor.generate(),
-                              mimetype='multipart/x-mixed-replace; boundary=frame')
+            # Ensure broadcast thread is running
+            self._streamor.start()
+        
+        self._logger.info("Serving stream...")
+        response = flask.Response(flask.stream_with_context(self._streamor.generate()),
+                                  mimetype='multipart/x-mixed-replace; boundary=OctoPrintStream')
+        response.direct_passthrough = True
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate' 
+        response.headers['Pragma'] = 'no-cache' 
+        response.headers['Expires'] = '0'
+        return response
 
 __plugin_name__ = "OctoPrint-RTSP"
 __plugin_pythoncompat__ = ">=3,<4"

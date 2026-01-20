@@ -4,11 +4,11 @@ from setuptools import setup
 plugin_identifier = "rtsp"
 plugin_package = "octoprint_rtsp"
 plugin_name = "OctoPrint-RTSP"
-plugin_version = "0.3.4"
+plugin_version = "0.4.0"
 plugin_description = """Allows viewing RTSP camera streams in OctoPrint via OpenCV transcoding"""
 plugin_author = "Antigravity"
 plugin_author_email = "antigravity@example.com"
-plugin_url = "https://github.com/your_username/OctoPrint-RTSP"
+plugin_url = "https://github.com/soopahfly/OctoPrint-RTSP"
 plugin_license = "AGPLv3"
 
 setup_parameters = {

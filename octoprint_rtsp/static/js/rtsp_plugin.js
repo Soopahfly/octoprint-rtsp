@@ -8,18 +8,15 @@ $(function () {
     function RtspViewModel(parameters) {
         var self = this;
 
-        self.settings = parameters[0].settings;
-
-        console.log("RtspViewModel loaded. Settings:", self.settings);
-
+        self.settingsViewModel = parameters[0];
 
         // This path will be: /plugin/rtsp/stream
         self.streamUrl = ko.pureComputed(function () {
-            return "http://" + window.location.host + "/plugin/rtsp/stream";
+            return window.location.protocol + "//" + window.location.host + "/plugin/rtsp/stream";
         });
 
         self.snapshotUrl = ko.pureComputed(function () {
-            return "http://" + window.location.host + "/plugin/rtsp/snapshot";
+            return window.location.protocol + "//" + window.location.host + "/plugin/rtsp/snapshot";
         });
 
         self.testPtz = function (direction) {
@@ -48,7 +45,7 @@ $(function () {
         construct: RtspViewModel,
         // ViewModels: SettingsViewModel
         dependencies: ["settingsViewModel"],
-        // Bind to elements with id: settings_plugin_rtsp
-        elements: ["#settings_plugin_rtsp"]
+        // Bind ONLY to our helper sections, NOT the whole settings div
+        elements: ["#rtsp_plugin_settings_container"]
     });
 });
