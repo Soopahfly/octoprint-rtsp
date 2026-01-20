@@ -57,6 +57,10 @@ This plugin:
 
 ## Changelog
 
+### v0.4.4
+- **Fixed**: Restored working v0.4.0 template binding pattern with `data-bind="with:"` context
+- **Fixed**: Use `$parent.streamUrl` for URL bindings within settings context
+
 ### v0.4.3
 - **Fixed**: Settings bindings now use correct viewmodel context
 - **Fixed**: Simplified template bindings for better compatibility

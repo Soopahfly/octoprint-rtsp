@@ -8,13 +8,9 @@ $(function () {
     function RtspViewModel(parameters) {
         var self = this;
 
-        // Store settingsViewModel reference so template can access it
         self.settingsViewModel = parameters[0];
 
-        // Shortcut to plugin settings
-        self.settings = self.settingsViewModel.settings.plugins.rtsp;
-
-        // Generate URLs - use ko.observable so they can be bound
+        // Generate URLs
         var baseUrl = window.location.protocol + "//" + window.location.host;
         self.streamUrl = ko.observable(baseUrl + "/plugin/rtsp/stream");
         self.snapshotUrl = ko.observable(baseUrl + "/plugin/rtsp/snapshot");
