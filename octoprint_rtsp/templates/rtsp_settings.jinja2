@@ -1,4 +1,4 @@
-<form class="form-horizontal" data-bind="with: settings.plugins.rtsp">
+<form class="form-horizontal" id="rtsp_plugin_settings_container">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab_rtsp_connection" data-toggle="tab">Connection</a></li>
         <li><a href="#tab_rtsp_advanced" data-toggle="tab">Advanced (FFmpeg)</a></li>
@@ -12,41 +12,49 @@
             <div class="control-group">
                 <label class="control-label">RTSP Stream URL</label>
                 <div class="controls">
-                    <input type="text" class="input-block-level" data-bind="value: rtsp_url" placeholder="rtsp://username:password@ip:port/stream">
+                    <input type="text" class="input-block-level" data-bind="value: settings.rtsp_url" placeholder="rtsp://username:password@ip:port/stream">
                     <span class="help-block">Enter the full RTSP URL of your camera.</span>
                 </div>
             </div>
-            
+
             <div class="control-group">
                 <label class="control-label">Orientation</label>
                 <div class="controls">
                     <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: flip_h"> Flip Horizontal
+                        <input type="checkbox" data-bind="checked: settings.flip_h"> Flip Horizontal
                     </label>
                     <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: flip_v"> Flip Vertical
+                        <input type="checkbox" data-bind="checked: settings.flip_v"> Flip Vertical
                     </label>
                      <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: rotate_90"> Rotate 90° Clockwise
+                        <input type="checkbox" data-bind="checked: settings.rotate_90"> Rotate 90° Clockwise
                     </label>
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="control-label">Stream Output URL</label>
-                <div class="controls">
-                    <!-- Note: streamUrl is on the ViewModel, not in settings.plugins.rtsp -->
-                    <!-- So we use $root or $parent context -->
-                    <pre data-bind="text: $parent.streamUrl"></pre>
-                    <span class="help-block">Copy this URL into <strong>Settings > Webcam & Timelapse > Stream URL</strong></span>
-                </div>
-            </div>
+            <!-- DYNAMIC INFO SECTION -->
+            <div id="rtsp-plugin-info">
+                    <div class="control-group">
+                        <label class="control-label">Stream Output URL</label>
+                        <div class="controls">
+                            <pre data-bind="text: streamUrl"></pre>
+                            <span class="help-block">Copy this URL into <strong>Settings > Webcam & Timelapse > Stream URL</strong></span>
+                        </div>
+                    </div>
 
-            <div class="control-group">
-                <label class="control-label">Snapshot Output URL</label>
-                <div class="controls">
-                    <pre data-bind="text: $parent.snapshotUrl"></pre>
-                    <span class="help-block">Copy this URL into <strong>Settings > Webcam & Timelapse > Snapshot URL</strong></span>
+                    <div class="control-group">
+                        <label class="control-label">Preview</label>
+                        <div class="controls">
+                            <img data-bind="attr: { src: streamUrl }" style="border: 1px solid #ccc; max-width: 100%;" alt="Stream Preview">
+                        </div>
+                    </div>
+
+                <div class="control-group">
+                    <label class="control-label">Snapshot Output URL</label>
+                    <div class="controls">
+                        <pre data-bind="text: snapshotUrl"></pre>
+                        <span class="help-block">Copy this URL into <strong>Settings > Webcam & Timelapse > Snapshot URL</strong></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,19 +65,19 @@
             <div class="alert alert-info">
                 <strong>Broadcast Mode Active</strong>: The plugin now runs a single background process to serve all clients efficiently.
             </div>
-            
+
             <div class="control-group">
                 <label class="control-label">Resolution (-s)</label>
                 <div class="controls">
-                    <input type="text" data-bind="value: stream_resolution" placeholder="e.g. 640x480">
+                    <input type="text" data-bind="value: settings.stream_resolution" placeholder="e.g. 640x480">
                     <span class="help-block">Leave empty to use source resolution. Lowering this can fix lag on Raspberry Pi.</span>
                 </div>
             </div>
-            
+
             <div class="control-group">
                 <label class="control-label">Framerate (-r)</label>
                 <div class="controls">
-                    <input type="number" data-bind="value: stream_fps" placeholder="15">
+                    <input type="number" data-bind="value: settings.stream_fps" placeholder="15">
                      <span class="help-block">Default: 15.</span>
                 </div>
             </div>
@@ -77,7 +85,7 @@
              <div class="control-group">
                 <label class="control-label">Bitrate (-b:v)</label>
                 <div class="controls">
-                    <input type="text" data-bind="value: stream_bitrate" placeholder="e.g. 1000k">
+                    <input type="text" data-bind="value: settings.stream_bitrate" placeholder="e.g. 1000k">
                     <span class="help-block">Target video bitrate.</span>
                 </div>
             </div>
@@ -85,7 +93,7 @@
             <div class="control-group">
                 <label class="control-label">Custom FFmpeg Args</label>
                 <div class="controls">
-                    <input type="text" class="input-block-level" data-bind="value: ffmpeg_custom_args" placeholder="-example arg">
+                    <input type="text" class="input-block-level" data-bind="value: settings.ffmpeg_custom_args" placeholder="-example arg">
                      <span class="help-block">Extra arguments to pass to FFmpeg (be careful!).</span>
                 </div>
             </div>
@@ -97,60 +105,60 @@
             <div class="control-group">
                 <div class="controls">
                     <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: use_ptz"> Enable Generic PTZ Support
+                        <input type="checkbox" data-bind="checked: settings.use_ptz"> Enable Generic PTZ Support
                     </label>
                      <span class="help-block">Configure HTTP URLs to trigger your camera's movements.</span>
                 </div>
             </div>
 
-            <div data-bind="visible: use_ptz">
-                 <!-- Helper function for PTZ row -->
-                 
-                 <div class="control-group">
-                    <label class="control-label">Left URL</label>
-                    <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: ptz_url_left">
-                        <button class="btn" type="button" data-bind="click: function() { $parent.testPtz('left') }"><i class="icon-arrow-left"></i> Test</button>
+            <div data-bind="visible: settings.use_ptz">
+                 <div id="rtsp-ptz-controls">
+                     <div class="control-group">
+                        <label class="control-label">Left URL</label>
+                        <div class="controls input-append">
+                            <input type="text" class="input-xxlarge" data-bind="value: settings.ptz_url_left">
+                            <button class="btn" type="button" data-bind="click: function() { testPtz('left') }"><i class="icon-arrow-left"></i> Test</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="control-group">
-                    <label class="control-label">Right URL</label>
-                    <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: ptz_url_right">
-                        <button class="btn" type="button" data-bind="click: function() { $parent.testPtz('right') }">Test <i class="icon-arrow-right"></i></button>
+                    <div class="control-group">
+                        <label class="control-label">Right URL</label>
+                        <div class="controls input-append">
+                            <input type="text" class="input-xxlarge" data-bind="value: settings.ptz_url_right">
+                            <button class="btn" type="button" data-bind="click: function() { testPtz('right') }">Test <i class="icon-arrow-right"></i></button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="control-group">
-                    <label class="control-label">Up URL</label>
-                    <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: ptz_url_up">
-                        <button class="btn" type="button" data-bind="click: function() { $parent.testPtz('up') }"><i class="icon-arrow-up"></i> Test</button>
+                    <div class="control-group">
+                        <label class="control-label">Up URL</label>
+                        <div class="controls input-append">
+                            <input type="text" class="input-xxlarge" data-bind="value: settings.ptz_url_up">
+                            <button class="btn" type="button" data-bind="click: function() { testPtz('up') }"><i class="icon-arrow-up"></i> Test</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="control-group">
-                    <label class="control-label">Down URL</label>
-                    <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: ptz_url_down">
-                        <button class="btn" type="button" data-bind="click: function() { $parent.testPtz('down') }"><i class="icon-arrow-down"></i> Test</button>
+                    <div class="control-group">
+                        <label class="control-label">Down URL</label>
+                        <div class="controls input-append">
+                            <input type="text" class="input-xxlarge" data-bind="value: settings.ptz_url_down">
+                            <button class="btn" type="button" data-bind="click: function() { testPtz('down') }"><i class="icon-arrow-down"></i> Test</button>
+                        </div>
                     </div>
-                </div>
-                
-                 <div class="control-group">
-                    <label class="control-label">Zoom In URL</label>
-                    <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: ptz_url_zoom_in">
-                        <button class="btn" type="button" data-bind="click: function() { $parent.testPtz('zoomin') }"><i class="icon-zoom-in"></i> Test</button>
+
+                     <div class="control-group">
+                        <label class="control-label">Zoom In URL</label>
+                        <div class="controls input-append">
+                            <input type="text" class="input-xxlarge" data-bind="value: settings.ptz_url_zoom_in">
+                            <button class="btn" type="button" data-bind="click: function() { testPtz('zoomin') }"><i class="icon-zoom-in"></i> Test</button>
+                        </div>
                     </div>
-                </div>
-                
-                 <div class="control-group">
-                    <label class="control-label">Zoom Out URL</label>
-                    <div class="controls input-append">
-                        <input type="text" class="input-xxlarge" data-bind="value: ptz_url_zoom_out">
-                        <button class="btn" type="button" data-bind="click: function() { $parent.testPtz('zoomout') }"><i class="icon-zoom-out"></i> Test</button>
+
+                     <div class="control-group">
+                        <label class="control-label">Zoom Out URL</label>
+                        <div class="controls input-append">
+                            <input type="text" class="input-xxlarge" data-bind="value: settings.ptz_url_zoom_out">
+                            <button class="btn" type="button" data-bind="click: function() { testPtz('zoomout') }"><i class="icon-zoom-out"></i> Test</button>
+                        </div>
                     </div>
                 </div>
             </div>

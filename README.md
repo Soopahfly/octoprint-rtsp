@@ -57,6 +57,10 @@ This plugin:
 
 ## Changelog
 
+### v0.4.3
+- **Fixed**: Settings bindings now use correct viewmodel context
+- **Fixed**: Simplified template bindings for better compatibility
+
 ### v0.4.2
 - **Fixed**: URL display bindings now work correctly in settings
 

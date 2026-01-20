@@ -8,7 +8,11 @@ $(function () {
     function RtspViewModel(parameters) {
         var self = this;
 
+        // Store settingsViewModel reference so template can access it
         self.settingsViewModel = parameters[0];
+
+        // Shortcut to plugin settings
+        self.settings = self.settingsViewModel.settings.plugins.rtsp;
 
         // Generate URLs - use ko.observable so they can be bound
         var baseUrl = window.location.protocol + "//" + window.location.host;
@@ -19,7 +23,7 @@ $(function () {
             $.ajax({
                 url: API_BASEURL + "plugin/rtsp/control/" + direction,
                 type: "POST",
-                success: function (response) {
+                success: function () {
                     new PNotify({
                         title: "PTZ Success",
                         text: "Command " + direction + " sent successfully.",
@@ -39,9 +43,7 @@ $(function () {
 
     OCTOPRINT_VIEWMODELS.push({
         construct: RtspViewModel,
-        // ViewModels: SettingsViewModel
         dependencies: ["settingsViewModel"],
-        // Bind ONLY to our helper sections, NOT the whole settings div
         elements: ["#rtsp_plugin_settings_container"]
     });
 });
