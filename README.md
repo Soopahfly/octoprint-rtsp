@@ -57,6 +57,12 @@ This plugin:
 
 ## Changelog
 
+### v0.5.0
+- **Fixed**: Complete rewrite of Knockout.js binding approach for `custom_bindings=True`
+- **Fixed**: Settings now properly bind through viewmodel's `settings` property
+- **Fixed**: Stream/Snapshot URLs now display correctly via direct viewmodel access
+- **Fixed**: Added `onBeforeBinding` lifecycle hook for proper settings initialization
+
 ### v0.4.4
 - **Fixed**: Restored working v0.4.0 template binding pattern with `data-bind="with:"` context
 - **Fixed**: Use `$parent.streamUrl` for URL bindings within settings context

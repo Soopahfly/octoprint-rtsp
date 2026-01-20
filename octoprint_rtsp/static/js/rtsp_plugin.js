@@ -10,10 +10,19 @@ $(function () {
 
         self.settingsViewModel = parameters[0];
 
+        // Shortcut to plugin settings
+        self.settings = null;
+
         // Generate URLs
         var baseUrl = window.location.protocol + "//" + window.location.host;
         self.streamUrl = ko.observable(baseUrl + "/plugin/rtsp/stream");
         self.snapshotUrl = ko.observable(baseUrl + "/plugin/rtsp/snapshot");
+
+        self.onBeforeBinding = function () {
+            // This is called before Knockout applies bindings
+            // Access settings through the settingsViewModel
+            self.settings = self.settingsViewModel.settings.plugins.rtsp;
+        };
 
         self.testPtz = function (direction) {
             $.ajax({
