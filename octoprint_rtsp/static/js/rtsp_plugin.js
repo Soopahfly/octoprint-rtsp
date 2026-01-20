@@ -10,9 +10,6 @@ $(function () {
 
         self.settingsViewModel = parameters[0];
 
-        // Shortcut to plugin settings
-        self.settings = null;
-
         // Generate URLs
         var baseUrl = window.location.protocol + "//" + window.location.host;
         self.streamUrl = ko.observable(baseUrl + "/plugin/rtsp/stream");
@@ -24,12 +21,6 @@ $(function () {
         self.refreshPreview = function() {
             // Update preview URL with new timestamp to bust cache
             self.previewUrl(baseUrl + "/plugin/rtsp/snapshot?t=" + Date.now());
-        };
-
-        self.onBeforeBinding = function () {
-            // This is called before Knockout applies bindings
-            // Access settings through the settingsViewModel
-            self.settings = self.settingsViewModel.settings.plugins.rtsp;
         };
 
         self.testPtz = function (direction) {
@@ -51,6 +42,24 @@ $(function () {
                     });
                 }
             });
+        };
+
+        // Called when settings dialog is shown - manually apply bindings
+        self.onSettingsShown = function() {
+            var container = document.getElementById("rtsp_plugin_settings_container");
+            if (container && !container._boundByRtsp) {
+                container._boundByRtsp = true;
+                // Create a combined viewmodel for the template
+                var combinedVm = {
+                    settings: self.settingsViewModel.settings.plugins.rtsp,
+                    streamUrl: self.streamUrl,
+                    snapshotUrl: self.snapshotUrl,
+                    previewUrl: self.previewUrl,
+                    refreshPreview: self.refreshPreview,
+                    testPtz: self.testPtz
+                };
+                ko.applyBindings(combinedVm, container);
+            }
         };
     }
 

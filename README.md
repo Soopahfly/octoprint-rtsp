@@ -57,6 +57,10 @@ This plugin:
 
 ## Changelog
 
+### v0.5.2
+- **Fixed**: Manual ko.applyBindings in onSettingsShown to work with custom_bindings=True
+- **Fixed**: Settings and URLs now properly display when settings dialog opens
+
 ### v0.5.1
 - **Fixed**: Preview now uses snapshot endpoint (single JPEG) instead of MJPEG stream
 - **Added**: Refresh button for preview image
