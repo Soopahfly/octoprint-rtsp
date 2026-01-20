@@ -88,7 +88,7 @@ class RtspPlugin(octoprint.plugin.StartupPlugin,
 
     def get_assets(self):
         return dict(
-            js=["js/rtsp_plugin.js?v=0.4.1"]
+            js=["js/rtsp_plugin.js?v=0.4.2"]
         )
 
     # BlueprintPlugin mixin

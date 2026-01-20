@@ -57,6 +57,9 @@ This plugin:
 
 ## Changelog
 
+### v0.4.2
+- **Fixed**: URL display bindings now work correctly in settings
+
 ### v0.4.1
 - **Fixed**: Added cache busting for JavaScript assets
 

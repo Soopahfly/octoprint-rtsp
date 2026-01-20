@@ -10,14 +10,10 @@ $(function () {
 
         self.settingsViewModel = parameters[0];
 
-        // This path will be: /plugin/rtsp/stream
-        self.streamUrl = ko.pureComputed(function () {
-            return window.location.protocol + "//" + window.location.host + "/plugin/rtsp/stream";
-        });
-
-        self.snapshotUrl = ko.pureComputed(function () {
-            return window.location.protocol + "//" + window.location.host + "/plugin/rtsp/snapshot";
-        });
+        // Generate URLs - use ko.observable so they can be bound
+        var baseUrl = window.location.protocol + "//" + window.location.host;
+        self.streamUrl = ko.observable(baseUrl + "/plugin/rtsp/stream");
+        self.snapshotUrl = ko.observable(baseUrl + "/plugin/rtsp/snapshot");
 
         self.testPtz = function (direction) {
             $.ajax({
