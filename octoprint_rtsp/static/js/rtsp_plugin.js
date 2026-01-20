@@ -18,6 +18,14 @@ $(function () {
         self.streamUrl = ko.observable(baseUrl + "/plugin/rtsp/stream");
         self.snapshotUrl = ko.observable(baseUrl + "/plugin/rtsp/snapshot");
 
+        // Preview URL with cache buster for refresh functionality
+        self.previewUrl = ko.observable(baseUrl + "/plugin/rtsp/snapshot?t=" + Date.now());
+
+        self.refreshPreview = function() {
+            // Update preview URL with new timestamp to bust cache
+            self.previewUrl(baseUrl + "/plugin/rtsp/snapshot?t=" + Date.now());
+        };
+
         self.onBeforeBinding = function () {
             // This is called before Knockout applies bindings
             // Access settings through the settingsViewModel

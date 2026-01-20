@@ -57,6 +57,11 @@ This plugin:
 
 ## Changelog
 
+### v0.5.1
+- **Fixed**: Preview now uses snapshot endpoint (single JPEG) instead of MJPEG stream
+- **Added**: Refresh button for preview image
+- **Removed**: Broken stream preview (browsers can't display MJPEG in img tags)
+
 ### v0.5.0
 - **Fixed**: Complete rewrite of Knockout.js binding approach for `custom_bindings=True`
 - **Fixed**: Settings now properly bind through viewmodel's `settings` property

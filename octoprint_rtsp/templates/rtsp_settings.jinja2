@@ -41,17 +41,20 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">Preview</label>
-                <div class="controls">
-                    <img data-bind="attr: { src: streamUrl }" style="border: 1px solid #ccc; max-width: 100%;" alt="Stream Preview">
-                </div>
-            </div>
-
-            <div class="control-group">
                 <label class="control-label">Snapshot Output URL</label>
                 <div class="controls">
                     <pre data-bind="text: snapshotUrl"></pre>
                     <span class="help-block">Copy this URL into <strong>Settings > Webcam & Timelapse > Snapshot URL</strong></span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Preview</label>
+                <div class="controls">
+                    <img data-bind="attr: { src: previewUrl }" style="border: 1px solid #ccc; max-width: 100%; max-height: 300px;" alt="Snapshot Preview">
+                    <br>
+                    <button class="btn btn-small" type="button" data-bind="click: refreshPreview"><i class="icon-refresh"></i> Refresh</button>
+                    <span class="help-block">Shows a snapshot from the camera. Click Refresh to update.</span>
                 </div>
             </div>
         </div>
