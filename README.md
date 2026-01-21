@@ -55,6 +55,11 @@ Nathen Fredrick (soopahfly@gmail.com)
 
 ## Changelog
 
+### v1.0.3
+- **Security**: Enabled `is_blueprint_protected()` - /snapshot and /control now require authentication
+- **Security**: Added explicit `is_blueprint_csrf_protected()` returning True with CSRF exemption for /snapshot GET
+- **Note**: /stream endpoint (Tornado route) remains publicly accessible for webcam viewer compatibility
+
 ### v1.0.2
 - **Fixed**: Removed non-existent SoftwareUpdatePlugin mixin (plugin failed to load)
 

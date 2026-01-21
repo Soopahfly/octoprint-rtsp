@@ -204,11 +204,18 @@ class RtspPlugin(octoprint.plugin.StartupPlugin,
             js=["js/rtsp_plugin.js"]
         )
 
-    # BlueprintPlugin mixin - allow anonymous access to stream/snapshot
+    # BlueprintPlugin mixin - require authentication for blueprint routes
+    # Note: /stream uses Tornado route (octoprint.server.http.routes hook) so is unaffected
+    # /snapshot and /control require login, which is fine since they're accessed via authenticated sessions
     def is_blueprint_protected(self):
-        return False
+        return True
+
+    # Explicitly enable CSRF protection for the blueprint
+    def is_blueprint_csrf_protected(self):
+        return True
 
     @octoprint.plugin.BlueprintPlugin.route("/snapshot", methods=["GET"])
+    @octoprint.plugin.BlueprintPlugin.csrf_exempt()
     def snapshot(self):
         rtsp_url = self._settings.get(["rtsp_url"])
         if not rtsp_url:
