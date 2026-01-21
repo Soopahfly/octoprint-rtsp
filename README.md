@@ -55,6 +55,9 @@ Nathen Fredrick (soopahfly@gmail.com)
 
 ## Changelog
 
+### v1.0.1
+- **Added**: Software update hook for automatic updates via OctoPrint Plugin Manager
+
 ### v1.0.0
 - **Major**: First stable release
 - **Fixed**: MJPEG streaming now uses native Tornado handler (fixes Flask/WSGI buffering issues)

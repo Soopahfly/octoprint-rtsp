@@ -126,7 +126,8 @@ class RtspPlugin(octoprint.plugin.StartupPlugin,
                  octoprint.plugin.SettingsPlugin,
                  octoprint.plugin.AssetPlugin,
                  octoprint.plugin.TemplatePlugin,
-                 octoprint.plugin.BlueprintPlugin):
+                 octoprint.plugin.BlueprintPlugin,
+                 octoprint.plugin.SoftwareUpdatePlugin):
 
     def __init__(self):
         self._streamor = None
@@ -263,6 +264,24 @@ class RtspPlugin(octoprint.plugin.StartupPlugin,
             self._logger.error(f"PTZ Error: {e}")
             return flask.Response(f"Error: {str(e)}", status=502)
 
+    # SoftwareUpdatePlugin mixin
+    def get_update_information(self):
+        return dict(
+            rtsp=dict(
+                displayName="OctoPrint-RTSP",
+                displayVersion=self._plugin_version,
+
+                # version check: github repository
+                type="github_release",
+                user="soopahfly",
+                repo="OctoPrint-RTSP",
+                current=self._plugin_version,
+
+                # update method: pip from github release zip
+                pip="https://github.com/soopahfly/OctoPrint-RTSP/archive/{target_version}.zip"
+            )
+        )
+
 
 __plugin_name__ = "OctoPrint-RTSP"
 __plugin_pythoncompat__ = ">=3,<4"
@@ -276,7 +295,8 @@ def __plugin_load__():
 
     __plugin_implementation__ = RtspPlugin()
     __plugin_hooks__ = {
-        "octoprint.server.http.routes": register_custom_routes
+        "octoprint.server.http.routes": register_custom_routes,
+        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
     }
 
 
