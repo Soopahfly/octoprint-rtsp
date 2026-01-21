@@ -4,7 +4,7 @@ from setuptools import setup
 plugin_identifier = "rtsp"
 plugin_package = "octoprint_rtsp"
 plugin_name = "OctoPrint-RTSP"
-plugin_version = "1.0.1"
+plugin_version = "1.0.2"
 plugin_description = """View RTSP camera streams in OctoPrint using FFmpeg transcoding to MJPEG"""
 plugin_author = "Nathen Fredrick"
 plugin_author_email = "soopahfly@gmail.com"

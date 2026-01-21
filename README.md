@@ -55,6 +55,9 @@ Nathen Fredrick (soopahfly@gmail.com)
 
 ## Changelog
 
+### v1.0.2
+- **Fixed**: Removed non-existent SoftwareUpdatePlugin mixin (plugin failed to load)
+
 ### v1.0.1
 - **Added**: Software update hook for automatic updates via OctoPrint Plugin Manager
 

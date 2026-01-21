@@ -126,8 +126,7 @@ class RtspPlugin(octoprint.plugin.StartupPlugin,
                  octoprint.plugin.SettingsPlugin,
                  octoprint.plugin.AssetPlugin,
                  octoprint.plugin.TemplatePlugin,
-                 octoprint.plugin.BlueprintPlugin,
-                 octoprint.plugin.SoftwareUpdatePlugin):
+                 octoprint.plugin.BlueprintPlugin):
 
     def __init__(self):
         self._streamor = None
