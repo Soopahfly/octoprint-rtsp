@@ -23,12 +23,6 @@ It solves the common problem where browsers cannot natively display `rtsp://` vi
 
 ## Installation
 
-### Plugin Manager
-1.  Open OctoPrint Settings.
-2.  Open the **Plugin Manager**.
-3.  Click "Get More...".
-4.  Search for **OctoPrint-RTSP** and click Install.
-
 ### Manually using the URL
 1.  Open the Plugin Manager.
 2.  Click "Get More..." and use the **... from URL** option.
