@@ -147,3 +147,4 @@ _ul
 rtsp.md
 BUGS_FIXED.md
 .claude/
+tests/debug_stream.py
