@@ -253,34 +253,29 @@ class Streamor:
     def generate(self):
         """Generator that yields MJPEG frames from the broadcast thread"""
         while self.running:
+            frame_data = None
+
             with self._condition:
                 if not self.thread or not self.thread.is_alive():
                     # Thread died unexpectedly?
                     break
-                    
+
                 # Wait for next frame
                 if self._condition.wait(timeout=5.0):
-                     # Got frame
+                     # Got frame - copy it before releasing lock
                      if self.last_frame:
-                         # Strict MJPEG format with Content-Length
-                         # Strict MJPEG format
-                         # Boundary: OctoPrintStream (defined in __init__.py)
-                         # Structure: --Boundary\r\nHeaders\r\n\r\nData\r\n
-                         
+                         frame = self.last_frame  # Copy reference
                          header = (b'--OctoPrintStream\r\n' +
                                    b'Content-Type: image/jpeg\r\n' +
-                                   f'Content-Length: {len(self.last_frame)}\r\n\r\n'.encode('utf-8'))
-                                   
-                         frame_data = header + self.last_frame + b'\r\n'
-                         
-                         if self._last_yield_log < time.time() - 5:
-                             self.logger.info(f"Streamor: Yielding frame. Header len: {len(header)}, Body len: {len(self.last_frame)}")
-                             self._last_yield_log = time.time()
-                             
-                         yield frame_data
-                else:
-                    # Timeout (stream stalled?) - Yield nothing or keep waiting
-                    continue
+                                   f'Content-Length: {len(frame)}\r\n\r\n'.encode('utf-8'))
+                         frame_data = header + frame + b'\r\n'
+
+            # Yield outside the lock
+            if frame_data:
+                if self._last_yield_log < time.time() - 5:
+                    self.logger.info(f"Streamor: Yielding frame. Size: {len(frame_data)} bytes")
+                    self._last_yield_log = time.time()
+                yield frame_data
 
     def _monitor_stderr(self):
         """Reads stderr from the ffmpeg process and logs it."""

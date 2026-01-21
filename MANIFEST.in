@@ -1,3 +1,7 @@
 include setup.py
 include README.md
-recursive-include octoprint_rtsp *
+include LICENSE
+recursive-include octoprint_rtsp/static *
+recursive-include octoprint_rtsp/templates *
+global-exclude *.pyc
+global-exclude __pycache__

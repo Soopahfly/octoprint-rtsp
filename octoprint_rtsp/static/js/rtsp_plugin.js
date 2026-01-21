@@ -1,7 +1,7 @@
 /*
  * View model for OctoPrint-RTSP
  *
- * Author: Antigravity
+ * Author: Nathen Fredrick
  * License: AGPLv3
  */
 $(function () {
@@ -12,14 +12,13 @@ $(function () {
 
         // Generate URLs
         var baseUrl = window.location.protocol + "//" + window.location.host;
+
+        // Create our own observables
         self.streamUrl = ko.observable(baseUrl + "/plugin/rtsp/stream");
         self.snapshotUrl = ko.observable(baseUrl + "/plugin/rtsp/snapshot");
-
-        // Preview URL with cache buster for refresh functionality
         self.previewUrl = ko.observable(baseUrl + "/plugin/rtsp/snapshot?t=" + Date.now());
 
         self.refreshPreview = function() {
-            // Update preview URL with new timestamp to bust cache
             self.previewUrl(baseUrl + "/plugin/rtsp/snapshot?t=" + Date.now());
         };
 
@@ -44,28 +43,15 @@ $(function () {
             });
         };
 
-        // Called when settings dialog is shown - manually apply bindings
+        // Refresh preview when settings opened
         self.onSettingsShown = function() {
-            var container = document.getElementById("rtsp_plugin_settings_container");
-            if (container && !container._boundByRtsp) {
-                container._boundByRtsp = true;
-                // Create a combined viewmodel for the template
-                var combinedVm = {
-                    settings: self.settingsViewModel.settings.plugins.rtsp,
-                    streamUrl: self.streamUrl,
-                    snapshotUrl: self.snapshotUrl,
-                    previewUrl: self.previewUrl,
-                    refreshPreview: self.refreshPreview,
-                    testPtz: self.testPtz
-                };
-                ko.applyBindings(combinedVm, container);
-            }
+            self.refreshPreview();
         };
     }
 
     OCTOPRINT_VIEWMODELS.push({
         construct: RtspViewModel,
         dependencies: ["settingsViewModel"],
-        elements: ["#rtsp_plugin_settings_container"]
+        elements: ["#settings_plugin_rtsp"]
     });
 });

@@ -32,7 +32,7 @@ It solves the common problem where browsers cannot natively display `rtsp://` vi
 ### Manually using the URL
 1.  Open the Plugin Manager.
 2.  Click "Get More..." and use the **... from URL** option.
-3.  Enter: `https://github.com/<your-username>/OctoPrint-RTSP/archive/main.zip`
+3.  Enter: `https://github.com/soopahfly/OctoPrint-RTSP/archive/main.zip`
 
 ## Configuration
 
@@ -55,7 +55,25 @@ This plugin:
 *   Stores your RTSP credentials locally in your OctoPrint `config.yaml`.
 *   Proxies the video stream through your OctoPrint server (your camera is not exposed directly to the internet).
 
+## Author
+
+Nathen Fredrick (soopahfly@gmail.com)
+
 ## Changelog
+
+### v1.0.0
+- **Major**: First stable release
+- **Fixed**: MJPEG streaming now uses native Tornado handler (fixes Flask/WSGI buffering issues)
+- **Fixed**: Stream now works reliably in OctoPrint's Control tab webcam viewer
+- **Improved**: Better frame delivery using Tornado's async I/O
+
+### v0.5.4
+- **Fixed**: Blueprint routes now allow anonymous access (was returning 403 Permission Denied)
+- **Added**: `is_blueprint_protected()` returns False so stream/snapshot URLs work without login
+
+### v0.5.3
+- **Fixed**: Set custom_bindings=True to work with manual ko.applyBindings approach
+- **Added**: Standalone test script (tests/test_stream.py) for debugging stream issues
 
 ### v0.5.2
 - **Fixed**: Manual ko.applyBindings in onSettingsShown to work with custom_bindings=True

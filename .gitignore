@@ -137,3 +137,13 @@ cython_debug/
 # OS specific checks
 .DS_Store
 Thumbs.db
+
+# Local development files
+*.zip
+*.jpg
+cookies.txt
+nul
+_ul
+rtsp.md
+BUGS_FIXED.md
+.claude/
