@@ -145,7 +145,7 @@ class Streamor:
             '-nostdin',
             '-rtsp_transport', 'tcp',
             '-rtsp_flags', 'prefer_tcp',
-            '-timeout', '5000000',
+            '-stimeout', '5000000',
             '-fflags', 'nobuffer',
             '-i', self.url,
             '-an',
